@@ -1,0 +1,22 @@
+{
+    "name": "convo/alert",
+    "authors": [
+        {
+            "name": "yousufkhalid223",
+            "email": "yousuf.khalid@techverx.com"
+        }
+    ],
+    "require": {
+        "php": ">= 7.0",
+        "guzzlehttp/guzzle": "^6.5"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Poc\\": "src/"
+        },
+        "files": [
+            "constants.php"
+        ]
+    }
+}
