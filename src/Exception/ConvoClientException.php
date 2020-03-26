@@ -27,13 +27,14 @@ class ConvoExceptionHandler extends \Exception
     }
 
     /**
+     * // set by response
      * @return string
      */
     public function throwException()
     {
         $exception = [
-            'code'    => $this->_errorCode(),
-            'message' => $this->_errorMessage()
+            'status' => $this->_errorCode(),
+            'data'   => $this->_errorMessage()
         ];
 
         return \GuzzleHttp\json_encode($exception);

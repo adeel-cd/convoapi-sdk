@@ -14,7 +14,7 @@ abstract class ConvoResource
     /**
      * @var HttpClient
      */
-    protected $guzzle_http;
+    protected $http_client;
 
     /**
      * @var mixed
@@ -26,7 +26,7 @@ abstract class ConvoResource
      */
     protected function __construct()
     {
-        $this->guzzle_http = new HttpClient();
+        $this->http_client = new HttpClient();
         self::$api_config = include __ROOT__."/config.php";
     }
 

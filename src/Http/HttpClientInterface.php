@@ -6,13 +6,15 @@ namespace Poc\Http;
  * Interface HttpInterface
  * @package Poc\Http
  */
-interface HttpInterface
+interface HttpClientInterface
 {
     const GET    = 'get';
-    const POST   = 'post';
     const PUT    = 'put';
+    const POST   = 'post';
     const PATCH  = 'patch';
     const DELETE = 'delete';
+    const AUTHORIZATION = 'Bearer ';
+    const CONTENT_TYPE  = 'application/json';
 
     /**
      * @param string $url
