@@ -6,6 +6,11 @@
  * Time: 8:49 PM
  */
 
+if(!defined('__ROOT__')) {
+    define('__ROOT__', __DIR__);
+}
+
+
 return [
 
     /*
