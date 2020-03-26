@@ -23,11 +23,12 @@ class ConvoAuth extends ConvoResource
      */
     public function authenticateUser(array $request)
     {
-        $this->validate($request, [
-            'email'    => 'required|email',
-            'password' => 'required|min:8'
-        ]);
+        $this->validate([], []);
+//        $this->validate($request, [
+//            'email'    => 'required|email',
+//            'password' => 'required|min:8'
+//        ]);
 
-        return $this->guzzle_http->post(self::URI().__FUNCTION__, $request);
+        return $this->http_client->post(self::URI().__FUNCTION__, $request);
     }
 }

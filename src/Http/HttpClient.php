@@ -3,7 +3,7 @@
 namespace Poc\Http;
 
 use GuzzleHttp\Client;
-use Poc\Exception\ConvoExceptionHandler;
+use Poc\Exception\ConvoClientException;
 use GuzzleHttp\Exception\ClientException;
 
 /**
@@ -19,17 +19,11 @@ class HttpClient implements HttpClientInterface
     private $_client;
 
     /**
-     * @var HttpResponse
-     */
-    private $_response;
-
-    /**
      * HttpClient constructor.
      */
     public function __construct()
     {
         $this->_client = new Client();
-        $this->_response = new HttpResponse();
     }
 
     /**
@@ -54,8 +48,6 @@ class HttpClient implements HttpClientInterface
     public function post(string $url, array $payload)
     {
         return $this->_request(self::POST, $url, $payload);
-
-
     }
 
     /**
@@ -131,7 +123,7 @@ class HttpClient implements HttpClientInterface
      */
     private function _setBody(array $data)
     {
-        return $this->_response->response($data);
+        return \GuzzleHttp\json_encode($data);
     }
 
     /**
@@ -147,14 +139,13 @@ class HttpClient implements HttpClientInterface
         try
         {
             $response = $this->_client->request($method, $url, $this->_setOptions($options));
-//            return $this->_setResponse($response); HttpResponse Class
+            $response = new HttpResponse($response);
+            return $response->getResponse();
         }
 
         catch (ClientException $exception)
         {
-            $exception = new ConvoExceptionHandler($exception);
-            echo $exception->throwException();
-            die();
+            return new ConvoClientException($exception);
         }
     }
 }

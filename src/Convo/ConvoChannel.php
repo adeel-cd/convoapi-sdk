@@ -1,15 +1,30 @@
 <?php
+
+namespace Poc\Convo;
+
 /**
- * Created by PhpStorm.
- * User: root
- * Date: 3/18/20
- * Time: 3:57 PM
+ * Class ConvoChannel
+ * @package Poc\Convo
  */
-
-namespace Convo;
-
-
 class ConvoChannel extends ConvoResource
 {
 
+    /**
+     * ConvoChannel constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Activate Channel Regarding Path
+     *
+     * @param array $payload
+     * @return bool|mixed|string
+     */
+    public function activateChannel(array $payload)
+    {
+        return $this->http_client->post(self::URI().__FUNCTION__, self::APPEND_TOKEN($payload));
+    }
 }

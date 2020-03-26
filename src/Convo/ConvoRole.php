@@ -18,12 +18,13 @@ class ConvoRole extends ConvoResource
     }
 
     /**
-     * @param array $request
-     * @return mixed
-     * @throws \Poc\Exception\ConvoExceptionHandler
+     * Provide All Roles Regarding to User
+     *
+     * @param array $payload
+     * @return bool|mixed|string
      */
-    public function listAllRoles(array $request)
+    public function listAllRoles(array $payload = null)
     {
-        return $this->guzzle_http->post(self::URI().__FUNCTION__, $request);
+        return $this->http_client->post(self::URI().__FUNCTION__, self::APPEND_TOKEN($payload));
     }
 }

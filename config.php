@@ -1,15 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 3/17/20
- * Time: 8:49 PM
- */
-
-if(!defined('__ROOT__')) {
-    define('__ROOT__', __DIR__);
-}
-
 
 return [
 
@@ -30,11 +19,24 @@ return [
     | Api Version
     |--------------------------------------------------------------------------
     |
-    | This value is the name of your application. This value is used when the
-    | framework needs to place the application's name in a notification or
+    | This value is the version of your api. This value is used when the
+    | sdk needs to place the version for api in a request or
     | any other location as required by the application or its packages.
     |
 	*/
 
     'version' => 'v1',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Api Authentication Token
+    |--------------------------------------------------------------------------
+    |
+    | This value is the authentication token of your account. This value is used when the
+    | sdk needs to place the request for api calls or any other location as required
+    | by the application or its packages. This token is required to call authorized apis
+    |
+	*/
+
+    '_token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBjb2RlZGlzdHJpY3QuY29tIiwiZXhwIjoxNTg1MjQ3NTIwLCJpYXQiOjE1ODUyMjk1MjB9.wfVw2Jdny2NJoeyFzhzi_V3MXGbRgZdG2Em9efGDFe-EM5-czywIB8TVuFs8jhheBvglCFgErYUcT8pREH-2lA',
 ];
