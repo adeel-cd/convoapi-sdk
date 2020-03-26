@@ -3,12 +3,13 @@
 namespace Poc\Exception;
 
 use GuzzleHttp\Exception\ClientException;
+use Poc\Http\HttpResponse;
 
 /**
  * Class ConvoExceptionHandler
  * @package Poc\Exception
  */
-class ConvoExceptionHandler extends \Exception
+class ConvoClientException extends \Exception
 {
 
     /**
@@ -32,12 +33,10 @@ class ConvoExceptionHandler extends \Exception
      */
     public function throwException()
     {
-        $exception = [
-            'status' => $this->_errorCode(),
-            'data'   => $this->_errorMessage()
-        ];
-
-        return \GuzzleHttp\json_encode($exception);
+        print_r('ues');die();
+        $res = new HttpResponse($this->exception);
+return $res->getResponse();
+//        return \GuzzleHttp\json_encode($exception);
     }
 
     /**

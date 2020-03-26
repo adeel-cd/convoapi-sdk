@@ -1,14 +1,11 @@
 <?php
+
+namespace Poc\Convo;
+
 /**
- * Created by PhpStorm.
- * User: root
- * Date: 3/18/20
- * Time: 3:58 PM
+ * Class ConvoAnnouncement
+ * @package Convo
  */
-
-namespace Convo;
-
-
 class ConvoAnnouncement extends ConvoResource
 {
 

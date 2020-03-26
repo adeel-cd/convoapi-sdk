@@ -18,11 +18,11 @@ class ConvoUser extends ConvoResource
     }
 
     /**
-     * @param array $request
+     * @param array $payload
      * @return mixed|\Psr\Http\Message\ResponseInterface
      */
-    public function createUser(array $request)
+    public function createUser(array $payload)
     {
-        return $this->guzzle_http->post(self::URI().__FUNCTION__, $request);
+        return $this->http_client->post(self::URI().__FUNCTION__, self::APPEND_TOKEN($payload));
     }
 }
