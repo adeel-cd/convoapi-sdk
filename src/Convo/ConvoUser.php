@@ -18,6 +18,8 @@ class ConvoUser extends ConvoResource
     }
 
     /**
+     * Create New User
+     *
      * @param array $payload
      * @return mixed|\Psr\Http\Message\ResponseInterface
      */
