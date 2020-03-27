@@ -4,7 +4,7 @@
     "authors": [
         {
             "name": "Yousuf Khalid",
-            "email": "yousuf.khalid@techverx.com"
+            "email": "yousuf.khalid@codedistrict.com"
         }
     ],
     "license": "MIT",
@@ -15,7 +15,7 @@
 
     "autoload": {
         "psr-4": {
-            "Poc\\": "src/"
+            "Poc\\": "src"
         },
         "files": [
             "src/helpers.php"
