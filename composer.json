@@ -1,11 +1,13 @@
 {
     "name": "convo/alert",
+    "description": "Java Api calling SDK.",
     "authors": [
         {
-            "name": "yousufkhalid223",
+            "name": "Yousuf Khalid",
             "email": "yousuf.khalid@techverx.com"
         }
     ],
+    "license": "MIT",
     "require": {
         "php": ">= 7.0",
         "guzzlehttp/guzzle": "^6.5"
@@ -18,5 +20,7 @@
         "files": [
             "constants.php"
         ]
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
