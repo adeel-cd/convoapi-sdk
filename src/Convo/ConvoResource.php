@@ -28,7 +28,7 @@ abstract class ConvoResource extends ConvoValidation
     protected function __construct()
     {
         $this->http_client = new HttpClient();
-        self::$api_config = include __ROOT__."/config.php";
+        self::$api_config = include 'config.php';
     }
 
     /**

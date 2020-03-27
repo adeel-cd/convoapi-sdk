@@ -18,17 +18,13 @@ class ConvoAuth extends ConvoResource
     }
 
     /**
+     * Authenticate User
+     *
      * @param array $request
      * @return bool|mixed|\Psr\Http\Message\StreamInterface
      */
     public function authenticateUser(array $request)
     {
-        $this->validate([], []);
-//        $this->validate($request, [
-//            'email'    => 'required|email',
-//            'password' => 'required|min:8'
-//        ]);
-
         return $this->http_client->post(self::URI().__FUNCTION__, $request);
     }
 }

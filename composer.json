@@ -18,7 +18,7 @@
             "Poc\\": "src/"
         },
         "files": [
-            "constants.php"
+            "src/helpers.php"
         ]
     },
     "minimum-stability": "dev",
