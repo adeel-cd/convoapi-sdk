@@ -3,4 +3,4 @@
 ## About Convo SDK
 
 ## License
-This software is released under the <a href="">Codedistrict</a> License.
+This software is released under the <a href="https://github.com/adeel-cd/convoapi-sdk/blob/master/LICENSE.md">Codedistrict</a> License.
