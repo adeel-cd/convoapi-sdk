@@ -10,7 +10,7 @@
 ## Quick Start
 <h5> Installation </h5>
 <pre>
-<code> composer require convo/alert-apis </code>
+<code> composer require convo/alert </code>
 </pre>
 
 ## License
