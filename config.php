@@ -27,9 +27,11 @@ return [
 
     'version' => 'v1',
 
+    'self_auth' => false,
+
     /*
     |--------------------------------------------------------------------------
-    | Api Authentication Token
+    | Api Authentication Credentials
     |--------------------------------------------------------------------------
     |
     | This value is the authentication token of your account. This value is used when the
@@ -38,5 +40,8 @@ return [
     |
 	*/
 
-    '_token' => 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBjb2RlZGlzdHJpY3QuY29tIiwiZXhwIjoxNTg1MjQ3NTIwLCJpYXQiOjE1ODUyMjk1MjB9.wfVw2Jdny2NJoeyFzhzi_V3MXGbRgZdG2Em9efGDFe-EM5-czywIB8TVuFs8jhheBvglCFgErYUcT8pREH-2lA',
+    'user' => [
+        'username' => null,
+        'password' => null
+    ]
 ];

@@ -6,7 +6,7 @@ require './vendor/autoload.php';
 //echo $c->listAllRoles([]);
 
 $c = new \Poc\Convo\ConvoAuth();
-echo $c->authenticateUser(['username' => 'admin@codedistrict.com', 'password' => 'password']);
+echo $c->authenticateUser(['username' => 'min@codedistrict.com', 'password' => 'password']);
 
 //$c = new \Poc\Convo\ConvoChannel();
 //$c->activateChannel([]);
