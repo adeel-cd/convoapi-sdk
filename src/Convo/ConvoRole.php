@@ -25,6 +25,6 @@ class ConvoRole extends ConvoResource
      */
     public function listAllRoles(array $payload = null)
     {
-        return $this->http_client->post(self::URI().__FUNCTION__, self::APPEND_TOKEN($payload));
+        return $this->http_client->post(self::URI().__FUNCTION__,  $payload);
     }
 }
