@@ -3,8 +3,11 @@
 namespace Poc\Http;
 
 use GuzzleHttp\Client;
+use \Exception;
+use GuzzleHttp\Exception\RequestException;
 use Poc\Exception\ConvoClientException;
 use GuzzleHttp\Exception\ClientException;
+use Poc\Exception\ConvoHttpException;
 
 /**
  * Class HttpClient
@@ -132,7 +135,7 @@ class HttpClient implements HttpClientInterface
      * @param string $method
      * @param string $url
      * @param array $options
-     * @return bool|string
+     * @return bool|string|null
      */
     private function _request(string $method, string $url, array $options)
     {
@@ -143,9 +146,18 @@ class HttpClient implements HttpClientInterface
             return $response->getResponse();
         }
 
-        catch (ClientException $exception)
+        // Handle Guzzle Client Exception
+        catch (ClientException $c_exception)
         {
-            return new ConvoClientException($exception);
+            $exception = new ConvoHttpException($c_exception);
+            return $exception->throwException();
+        }
+
+        // Handle Guzzle Request Exception
+        catch (RequestException $r_exception)
+        {
+            $exception = new ConvoHttpException($r_exception);
+            return $exception->throwException();
         }
     }
 }

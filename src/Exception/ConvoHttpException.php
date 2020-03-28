@@ -3,25 +3,25 @@
 namespace Poc\Exception;
 
 use GuzzleHttp\Exception\ClientException;
-use Poc\Http\HttpResponse;
+use GuzzleHttp\Exception\RequestException;
 
 /**
  * Class ConvoExceptionHandler
  * @package Poc\Exception
  */
-class ConvoClientException extends \Exception
+class ConvoHttpException extends \Exception
 {
 
     /**
-     * @var ClientException
+     * @var ClientException|RequestException
      */
     private $exception;
 
     /**
-     * ConvoExceptionHandler constructor.
-     * @param ClientException $exception
+     * ConvoHttpException constructor.
+     * @param $exception
      */
-    public function __construct(ClientException $exception)
+    public function __construct($exception)
     {
         parent::__construct();
         $this->exception = $exception;
@@ -33,10 +33,12 @@ class ConvoClientException extends \Exception
      */
     public function throwException()
     {
-        print_r('ues');die();
-        $res = new HttpResponse($this->exception);
-return $res->getResponse();
-//        return \GuzzleHttp\json_encode($exception);
+        $body = [
+            'status'  => $this->_errorCode(),
+            'message' => $this->_errorMessage()
+        ];
+
+        return \GuzzleHttp\json_encode($body);
     }
 
     /**
