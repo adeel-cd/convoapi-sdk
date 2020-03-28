@@ -25,6 +25,6 @@ class ConvoChannel extends ConvoResource
      */
     public function activateChannel(array $payload)
     {
-        return $this->http_client->post(self::URI().__FUNCTION__, self::APPEND_TOKEN($payload));
+        return $this->http_client->post(self::URI().__FUNCTION__, $payload);
     }
 }
