@@ -27,7 +27,7 @@ class ConvoValidation implements ConvoValidationInterface
         'anything' => "^[\d\D]{1,}\$"
     ];
 
-    public function validate(array $request, array $rules)
+    protected function validate(array $request, array $rules)
     {
 
         $request = [

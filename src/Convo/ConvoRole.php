@@ -3,8 +3,14 @@
 namespace Poc\Convo;
 
 /**
+ * This Class Provides Access on Convo Role Module API.
  * Class ConvoRole
- * @package Poc\Convo
+ *
+ * @category Role
+ * @package  Poc\Convo
+ * @author   Yousuf Khalid <yousuf.khalid@codedistrict.com>
+ * @license  https://github.com/adeel-cd/convoapi-sdk/blob/master/LICENSE.md MIT
+ * @link     https://packagist.org/packages/convo/alert
  */
 class ConvoRole extends ConvoResource
 {
@@ -20,7 +26,8 @@ class ConvoRole extends ConvoResource
     /**
      * Provide All Roles Regarding to User
      *
-     * @param array $payload
+     * @param array $payload must be array
+     *
      * @return bool|mixed|string
      */
     public function listAllRoles(array $payload = null)
