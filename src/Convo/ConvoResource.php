@@ -6,8 +6,14 @@ use Poc\Http\HttpClient;
 use Poc\Validation\ConvoValidation;
 
 /**
+ * This class provides base settings for API Call.
  * Class ConvoResource
- * @package Poc\Convo
+ *
+ * @category Resource
+ * @package  Poc\Convo
+ * @author   Yousuf Khalid <yousuf.khalid@codedistrict.com>
+ * @license  https://github.com/adeel-cd/convoapi-sdk/blob/master/LICENSE.md MIT
+ * @link     https://packagist.org/packages/convo/alert
  */
 abstract class ConvoResource extends ConvoValidation
 {

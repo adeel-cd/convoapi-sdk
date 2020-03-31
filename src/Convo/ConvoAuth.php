@@ -3,8 +3,14 @@
 namespace Poc\Convo;
 
 /**
+ * This Class Provides Access on Convo Authentication Module API.
  * Class ConvoAuth
- * @package Poc\Convo
+ *
+ * @category Auth
+ * @package  Poc\Convo
+ * @author   Yousuf Khalid <yousuf.khalid@codedistrict.com>
+ * @license  https://github.com/adeel-cd/convoapi-sdk/blob/master/LICENSE.md MIT
+ * @link     https://packagist.org/packages/convo/alert
  */
 class ConvoAuth extends ConvoResource
 {
@@ -20,8 +26,9 @@ class ConvoAuth extends ConvoResource
     /**
      * Authenticate User
      *
-     * @param array $request
-     * @return bool|mixed|\Psr\Http\Message\StreamInterface
+     * @param array $request must be array
+     *
+     * @return \Psr\Http\Message\StreamInterface
      */
     public function authenticateUser(array $request)
     {

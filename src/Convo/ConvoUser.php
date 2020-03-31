@@ -3,8 +3,14 @@
 namespace Poc\Convo;
 
 /**
+ * This Class Provides Access on Convo User Module API.
  * Class ConvoUser
- * @package Poc\Convo
+ *
+ * @category User
+ * @package  Poc\Convo
+ * @author   Yousuf Khalid <yousuf.khalid@codedistrict.com>
+ * @license  https://github.com/adeel-cd/convoapi-sdk/blob/master/LICENSE.md MIT
+ * @link     https://packagist.org/packages/convo/alert
  */
 class ConvoUser extends ConvoResource
 {
@@ -20,7 +26,8 @@ class ConvoUser extends ConvoResource
     /**
      * Create New User
      *
-     * @param array $payload
+     * @param array $payload must be array
+     *
      * @return mixed|\Psr\Http\Message\ResponseInterface
      */
     public function createUser(array $payload)

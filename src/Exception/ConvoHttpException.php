@@ -2,59 +2,42 @@
 
 namespace Poc\Exception;
 
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\RequestException;
+use Poc\Http\HttpResponse;
 
 /**
- * Class ConvoExceptionHandler
- * @package Poc\Exception
+ * This class handle HttpClient base Exception.
+ * Class ConvoHttpException
+ *
+ * @category HttpException
+ * @package  Poc\Exception
+ * @author   Yousuf Khalid <yousuf.khalid@codedistrict.com>
+ * @license  https://github.com/adeel-cd/convoapi-sdk/blob/master/LICENSE.md MIT
+ * @link     https://packagist.org/packages/convo/alert
  */
 class ConvoHttpException extends \Exception
 {
 
     /**
-     * @var ClientException|RequestException
+     * @var object
      */
-    private $exception;
+    private $_exception;
 
     /**
      * ConvoHttpException constructor.
-     * @param $exception
+     *
+     * @param $exception | must have PHPException instance.
      */
     public function __construct($exception)
     {
         parent::__construct();
-        $this->exception = $exception;
+        $this->_exception = $exception;
     }
 
     /**
-     * // set by response
-     * @return string
+     * @return mixed|string|null
      */
     public function throwException()
     {
-        $body = [
-            'status'  => $this->_errorCode(),
-            'message' => $this->_errorMessage()
-        ];
-
-        return \GuzzleHttp\json_encode($body);
+        return (new HttpResponse($this->_exception))->getResponse();
     }
-
-    /**
-     * @return int|mixed
-     */
-    private function _errorCode()
-    {
-        return $this->exception->getCode();
-    }
-
-    /**
-     * @return string
-     */
-    private function _errorMessage()
-    {
-        return $this->exception->getMessage();
-    }
-
 }
