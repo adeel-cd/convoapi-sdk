@@ -24,14 +24,27 @@ class ConvoChannel extends ConvoResource
     }
 
     /**
-     * Activate Channel Regarding Path
+     * Activate Channel
      *
-     * @param array $payload must be array
+     * @param array $request provided data
      *
      * @return bool|mixed|string
      */
-    public function activateChannel(array $payload)
+    public function activateChannel(array $request)
     {
-        return $this->http_client->post(self::URI().__FUNCTION__, $payload);
+
+        // Apply Validation
+        $validate = $this->validation->validate($request, [
+            '_token' => 'required',
+            'path'   => 'required'
+        ]);
+
+        // Check for failed rules
+        if($this->validation->fails())
+        {
+            return $validate;
+        }
+
+        return $this->http_client->post(self::URI().__FUNCTION__, $request);
     }
 }

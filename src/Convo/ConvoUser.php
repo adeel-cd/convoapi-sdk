@@ -26,12 +26,53 @@ class ConvoUser extends ConvoResource
     /**
      * Create New User
      *
-     * @param array $payload must be array
+     * @param array $request must be array
      *
      * @return mixed|\Psr\Http\Message\ResponseInterface
      */
-    public function createUser(array $payload)
+    public function createUser(array $request)
     {
-        return $this->http_client->post(self::URI().__FUNCTION__,  $payload);
+
+        // Apply Validations
+        $validate = $this->validation->validate($request, [
+            '_token'      => 'required',
+            'username'    => 'required|email',
+            'firstname'   => 'required',
+            'lastname'    => 'required',
+            'picture'     => 'required|file',
+            'roles'       => 'required|array',
+            'designation' => 'required',
+        ]);
+
+        // Check for failed rules
+        if ($this->validation->fails())
+        {
+            return $validate;
+        }
+
+        // Convert Image to encodedBase64
+        if($encoded = $this->_encodeBase64($request['picture']))
+        {
+            $request['picturebase64'] = $encoded;
+        }
+
+        return $this->http_client->post(self::URI().__FUNCTION__,  $request);
+    }
+
+    /**
+     * Convert Image to Base64
+     *
+     * @param $file, to be converted
+     *
+     * @return bool|string
+     */
+    private function _encodeBase64($file)
+    {
+        if($contents = file_get_contents($file))
+        {
+            return base64_encode($contents);
+        }
+
+        return false;
     }
 }

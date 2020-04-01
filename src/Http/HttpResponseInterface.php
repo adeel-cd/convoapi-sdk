@@ -16,11 +16,12 @@ interface HttpResponseInterface
 {
 
     /**
-     * Provide Response Type
+     * Provide Http Body Response
      *
-     * @param string|null $format must be string
+     * @param string|null $format           data return format
+     * @param bool        $message_decoding decode or not
      *
-     * @return mixed
+     * @return array|mixed|string|null
      */
-    public function getResponse(string $format = null);
+    public function getResponse(string $format = null, bool $message_decoding = false);
 }

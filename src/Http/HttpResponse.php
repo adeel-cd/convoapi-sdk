@@ -2,8 +2,7 @@
 
 namespace Poc\Http;
 
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\RequestException;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -23,9 +22,9 @@ class HttpResponse implements HttpResponseInterface
     const JSON = 'json';
 
     /**
-     * Set Response Instance
+     * HttpResponse
      *
-     * @var ResponseInterface|ClientException
+     * @var ResponseInterface
      */
     private $_response;
 
@@ -40,13 +39,14 @@ class HttpResponse implements HttpResponseInterface
     }
 
     /**
-     * Get Response Type
+     * Provide Http Body Response
      *
-     * @param string|null $format define response type
+     * @param string|null $format           data return format
+     * @param bool        $message_decoding decode or not
      *
-     * @return mixed|string|null
+     * @return array|mixed|string|null
      */
-    public function getResponse(string $format = null)
+    public function getResponse(string $format = null, bool $message_decoding = false)
     {
 
         $response = null;
@@ -56,17 +56,17 @@ class HttpResponse implements HttpResponseInterface
         {
             // Set Response to XML
         case self::XML:
-            $response = $this->_xml($this->_setResponse());
+            $response = $this->_xml($this->_setResponse($message_decoding));
             break;
 
             // Set Response to JSON
         case self::JSON:
-            $response = $this->_json($this->_setResponse());
+            $response = $this->_json($this->_setResponse($message_decoding));
             break;
 
             // Default Response to JSON
         default:
-            $response = $this->_json($this->_setResponse());
+            $response = $this->_json($this->_setResponse($message_decoding));
             break;
         }
 
@@ -74,47 +74,53 @@ class HttpResponse implements HttpResponseInterface
     }
 
     /**
-     * Provide Response Body
+     * Set Body Response
      *
+     * @param $decoding, for decoded message
      * @return array
      */
-    private function _setResponse()
+    private function _setResponse($decoding)
     {
 
-
-        if( $this->_response instanceof ClientException
-            || $this->_response instanceof RequestException )
+        // if request fails
+        if( $this->_response instanceof Exception )
         {
-            return $this->_failResponse();
+            return $this->_failResponse($decoding);
         }
 
-        return $this->_successResponse();
+        return $this->_successResponse($decoding);
     }
 
     /**
-     * Success Response
+     * Set Success Response
      *
+     * @param $decoding, for decoded message
      * @return array
      */
-    private function _successResponse()
+    private function _successResponse($decoding)
     {
+        $message = $this->_setMessage();
+
         return [
             'status'  => $this->_response->getStatusCode(),
-            'message' => $this->_setMessage(),
+            'message' => $decoding ? $this->_decode($message) : $message,
             'data'    => $this->_setData(),
         ];
     }
 
     /**
-     * Failed Response
+     * Set Failed Response
      *
+     * @param $decoding, for decoded message
      * @return array
      */
-    private function _failResponse()
+    private function _failResponse($decoding)
     {
+        $message = $this->_response->getMessage();
+
         return [
             'status'  => $this->_response->getCode(),
-            'message' => $this->_response->getMessage()
+            'message' => $decoding ? $this->_decode($message) : $message
         ];
     }
 

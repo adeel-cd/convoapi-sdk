@@ -3,9 +3,9 @@
 namespace Poc\Http;
 
 use GuzzleHttp\Client;
-use Poc\Exception\ConvoHttpException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
+use Poc\Exception\HttpException;
 
 /**
  * This class provides Http Client Requests.
@@ -29,6 +29,8 @@ class HttpClient implements HttpClientInterface
     const CONTENT_TYPE  = 'application/json';
 
     /**
+     * GuzzleClient Instance
+     *
      * @var Client
      */
     private $_client;
@@ -42,7 +44,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Attempt HTTP Get request
+     * Attempt HTTP GET Request
      *
      * @param string $url     must be string
      * @param array  $payload must be array
@@ -55,7 +57,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Attempt HTTP POST request
+     * Attempt HTTP POST Request
      *
      * @param string $url     must be string
      * @param array  $payload must be array
@@ -68,7 +70,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Attempt HTTP PUT request
+     * Attempt HTTP PUT Request
      *
      * @param string $url     must be string
      * @param array  $payload must be array
@@ -81,7 +83,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Attempt HTTP PATCH request
+     * Attempt HTTP PATCH Request
      *
      * @param string $url     must be string
      * @param array  $payload must be array
@@ -94,7 +96,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Attempt HTTP DELETE request
+     * Attempt HTTP DELETE Request
      *
      * @param string $url     must be string
      * @param array  $payload must be array
@@ -122,7 +124,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Set Request Headers
+     * Provide Request Headers
      *
      * @param array $payload must be array
      *
@@ -139,7 +141,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Set Request Body
+     * Provide Request Body
      *
      * @param array $data must be array
      *
@@ -151,7 +153,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * Call Convo Api
+     * Send Convo Api Request
      *
      * @param string $method  must be string
      * @param string $url     must be string
@@ -166,22 +168,22 @@ class HttpClient implements HttpClientInterface
             $response = $this->_client->request(
                 $method, $url, $this->_setOptions($options)
             );
-            $response = new HttpResponse($response);
-            return $response->getResponse();
+
+            return (new HttpResponse($response))->getResponse();
         }
 
         // Handle Guzzle Client Exception
-        catch (ClientException $c_exception)
+        catch (ClientException $exception)
         {
-            $exception = new ConvoHttpException($c_exception);
-            return $exception->throwException();
+            $exception = new HttpException($exception->getMessage(), $exception->getCode());
+            return $exception->getResponse();
         }
 
         // Handle Guzzle Request Exception
-        catch (RequestException $r_exception)
+        catch (RequestException $exception)
         {
-            $exception = new ConvoHttpException($r_exception);
-            return $exception->throwException();
+            $exception = new HttpException($exception->getMessage(), $exception->getCode());
+            return $exception->getResponse();
         }
     }
 }
