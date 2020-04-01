@@ -2,140 +2,186 @@
 
 namespace Poc\Validation;
 
-use Poc\Exception\ConvoValidationException;
+use Poc\Exception\ValidationException;
 
 /**
+ * This class provides basic request validations
  * Class ConvoValidation
- * @package Poc\Validation
+ *
+ * @category Validations
+ * @package  Poc\Validation
+ * @author   Yousuf Khalid <yousuf.khalid@codedistrict.com>
+ * @license  https://github.com/adeel-cd/convoapi-sdk/blob/master/LICENSE.md MIT
+ * @link     https://packagist.org/packages/convo/alert
  */
 class ConvoValidation implements ConvoValidationInterface
 {
 
-    public static $regexes = [
-        'date' => "^[0-9]{4}[-/][0-9]{1,2}[-/][0-9]{1,2}\$",
-        'amount' => "^[-]?[0-9]+\$",
-        'number' => "^[-]?[0-9,]+\$",
-        'alfanum' => "^[0-9a-zA-Z ,.-_\\s\?\!]+\$",
-        'not_empty' => "[a-z0-9A-Z]+",
-        'words' => "^[A-Za-z]+[A-Za-z \\s]*\$",
-        'phone' => "^[0-9]{10,11}\$",
-        'zipcode' => "^[1-9][0-9]{3}[a-zA-Z]{2}\$",
-        'plate' => "^([0-9a-zA-Z]{2}[-]){2}[0-9a-zA-Z]{2}\$",
-        'price' => "^[0-9.,]*(([.,][-])|([.,][0-9]{2}))?\$",
-        '2digitopt' => "^\d+(\,\d{2})?\$",
-        '2digitforce' => "^\d+\,\d\d\$",
-        'anything' => "^[\d\D]{1,}\$"
-    ];
+    const EXT      = 'ext';
+    const FILE     = 'file';
+    const EMAIL    = 'email';
+    const ARRAY    = 'array';
+    const REQUIRED = 'required';
 
-    protected function validate(array $request, array $rules)
+    /**
+     * RulesInstance
+     *
+     * @var ConvoValidationRules
+     */
+    private $_rules;
+
+    /**
+     * ConvoValidation constructor.
+     */
+    public function __construct()
+    {
+        $this->_rules = new ConvoValidationRules();
+    }
+
+    /**
+     * Validate Request
+     *
+     * @param array $request values
+     * @param array $rules   validations
+     *
+     * @return bool|mixed|string|null
+     */
+    public function validate(array $request, array $rules)
     {
 
-        $request = [
-            'username' => 'asd',
-            'password' => 'pas',
-        ];
-
-        $rules = [
-            'username' => 'required|email',
-            'password' => 'required'
-        ];
-
+        // Whether request is null or not
         if(count($request) > 0)
         {
             foreach ($rules as $key => $rule)
             {
+
+                // Check for existing params in request regarding rules
                 if($this->_requestHasParam($key, $request))
                 {
-                    foreach ($this->_rulesBag($rule) as $method)
-                    {
-                        if(method_exists($this, $method))
-                        {
-                            $response = $this->{$method}($key, $request[$key]);
-                            if($response === true)
-                            {
-                                throw new ConvoValidationException($response);
-                            }
-                        }
-                    }
+
+                    // Process Validation Rules
+                    $this->_fetchRules($rule, $key, $request);
+                    continue;
                 }
+
+                $this->_rules->error(sprintf("%s is missing.", $key));
+            }
+
+            return $this->_setResponse();
+
+        }
+
+        $this->_rules->error(sprintf("data array is blank."));
+
+        return $this->_setResponse();
+    }
+
+    /**
+     * Check Whether Validation fails
+     *
+     * @return bool
+     */
+    public function fails()
+    {
+        return count($this->_rules->errors) > 0;
+    }
+
+    /**
+     * Set Exception Body Response
+     *
+     * @return bool|mixed|string|null
+     */
+    private function _setResponse()
+    {
+        try
+        {
+            return $this->_hasErrors();
+        }
+
+        catch (ValidationException $exception)
+        {
+            return $exception->getResponse();
+        }
+    }
+
+    /**
+     * Check Whether request has params
+     *
+     * @param string $key
+     * @param array  $request
+     *
+     * @return bool
+     */
+    private function _requestHasParam(string $key, array $request)
+    {
+        return array_key_exists($key, $request);
+    }
+
+    /**
+     * Split All Rules
+     *
+     * @param string $rule all rules
+     *
+     * @return array
+     */
+    private function _rulesBag(string $rule)
+    {
+        return explode('|', $rule);
+    }
+
+    /**
+     * Process Request with Rules
+     *
+     * @param string $rule  name
+     * @param string $key   value index
+     * @param array  $value values
+     *
+     * @return bool
+     */
+    private function _fetchRules(string $rule, string $key, array $value)
+    {
+        foreach ($this->_rulesBag($rule) as $method)
+        {
+            switch ($method)
+            {
+
+            case self::EMAIL:
+                $this->_rules->typeEmail($key, $value);
+                break;
+
+            case self::REQUIRED:
+                $this->_rules->required($key, $value);
+                break;
+
+            case self::ARRAY:
+                $this->_rules->typeArray($key, $value);
+                break;
+
+            case self::FILE:
+                $this->_rules->typeFile($key);
+                break;
+
             }
         }
 
         return false;
     }
-//
-//    /**
-//     * Check Whether request has
-//     * all params define in rules
-//     *
-//     * @param string $key
-//     * @param array $request
-//     * @return bool
-//     */
-//    private function _requestHasParam(string $key, array $request)
-//    {
-//        return array_key_exists($key, $request);
-//    }
-//
-//    /**
-//     * Split Multiple Rules
-//     *
-//     * @param string $rule
-//     * @return array
-//     */
-//    private function _rulesBag(string $rule)
-//    {
-//        return explode('|', $rule);
-//    }
-//
-//    /**
-//     * Email Validation Rule
-//     *
-//     * @param string $key
-//     * @param string $value
-//     * @return string
-//     */
-//    private function email(string $key, string $value)
-//    {
-//        return filter_var($value, FILTER_VALIDATE_EMAIL) ?: $this->_errorBag($key, self::EMAIL);
-//    }
-//
-//    /**
-//     * Required Field Validation Rule
-//     *
-//     * @param string $key
-//     * @param string $value
-//     * @return string
-//     */
-//    private function required(string $key, string $value)
-//    {
-//        return !empty($value) ?: $this->_errorBag($key);
-//    }
-//
-//    /**
-//     * Generate Error Message
-//     *
-//     * @param string $type
-//     * @param string $key
-//     * @return string
-//     */
-//    private function _errorBag(string $key, string $type = null)
-//    {
-//        $message = null;
-//
-//        switch ($type)
-//        {
-//            case self::REQUIRED:
-//                $message = sprintf("The %s is required.", $key);
-//                break;
-//            case self::EMAIL:
-//                $message = sprintf("Invalid Email.");
-//                break;
-//            default:
-//                $message = sprintf("The %s is required.", $key);
-//                break;
-//        }
-//
-//        return $message;
-//    }
+
+    /**
+     * Throws Validation Exception if has
+     *
+     * @return bool
+     *
+     * @throws ValidationException
+     */
+    private function _hasErrors()
+    {
+        if(count($this->_rules->errors) > 0)
+        {
+            $encoded_message = \GuzzleHttp\json_encode($this->_rules->errors);
+            throw new ValidationException($encoded_message, 422);
+        }
+
+        return true;
+    }
 }

@@ -15,18 +15,29 @@ use Poc\Validation\ConvoValidation;
  * @license  https://github.com/adeel-cd/convoapi-sdk/blob/master/LICENSE.md MIT
  * @link     https://packagist.org/packages/convo/alert
  */
-abstract class ConvoResource extends ConvoValidation
+abstract class ConvoResource
 {
 
-    const URI = 'https://codedistrict.dev.api.convoalert.com/ConvoAnnounce';
     const VERSION = 'v1';
+    const URI     = 'https://codedistrict.dev.api.convoalert.com/ConvoAnnounce';
 
     /**
+     * Set Http Client
+     *
      * @var HttpClient
      */
     protected $http_client;
 
     /**
+     * Set Validations
+     *
+     * @var ConvoValidation
+     */
+    protected $validation;
+
+    /**
+     * Provide basic config
+     *
      * @var mixed
      */
     protected static $api_config;
@@ -37,6 +48,7 @@ abstract class ConvoResource extends ConvoValidation
     protected function __construct()
     {
         $this->http_client = new HttpClient();
+        $this->validation  = new ConvoValidation();
     }
 
     /**

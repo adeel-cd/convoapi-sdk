@@ -4,7 +4,7 @@ namespace Poc\Http;
 
 /**
  * Http ClientInterface Class Map
- * Interface HttpInterface
+ * Interface HttpClientInterface
  *
  * @category ClientInterface
  * @package  Poc\Http
@@ -16,53 +16,53 @@ interface HttpClientInterface
 {
 
     /**
-     * Provide Get Request
+     * Attempt HTTP GET Request
      *
-     * @param string $url     must be url
-     * @param array  $options body params
+     * @param string $url     must be string
+     * @param array  $payload must be array
      *
-     * @return mixed
+     * @return bool|mixed|string
      */
-    public function get(string $url, array $options);
+    public function get(string $url, array $payload);
 
     /**
-     * Provide Post Request
+     * Attempt HTTP POST Request
      *
-     * @param string $url     must be url
-     * @param array  $options body params
+     * @param string $url     must be string
+     * @param array  $payload must be array
      *
-     * @return mixed
+     * @return bool|mixed|string
      */
-    public function post(string $url, array $options);
+    public function post(string $url, array $payload);
 
 
     /**
-     * Provide Put Request
+     * Attempt HTTP PUT Request
      *
-     * @param string $url     must be url
-     * @param array  $options body params
+     * @param string $url     must be string
+     * @param array  $payload must be array
      *
-     * @return mixed
+     * @return bool|mixed|string
      */
-    public function put(string $url, array $options);
+    public function put(string $url, array $payload);
 
     /**
-     * Provide Patch Request
+     * Attempt HTTP PATCH Request
      *
-     * @param string $url     must be url
-     * @param array  $options body params
+     * @param string $url     must be string
+     * @param array  $payload must be array
      *
-     * @return mixed
+     * @return bool|mixed|string
      */
-    public function patch(string $url, array $options);
+    public function patch(string $url, array $payload);
 
     /**
-     * Provide Delete Request
+     * Attempt HTTP DELETE Request
      *
-     * @param string $url     must be url
-     * @param array  $options body params
+     * @param string $url     must be string
+     * @param array  $payload must be array
      *
-     * @return mixed
+     * @return bool|mixed|string
      */
-    public function delete(string $url, array $options);
+    public function delete(string $url, array $payload);
 }

@@ -26,12 +26,24 @@ class ConvoRole extends ConvoResource
     /**
      * Provide All Roles Regarding to User
      *
-     * @param array $payload must be array
+     * @param array $request provided data
      *
      * @return bool|mixed|string
      */
-    public function listAllRoles(array $payload = null)
+    public function listAllRoles(array $request)
     {
-        return $this->http_client->post(self::URI().__FUNCTION__,  $payload);
+
+        // Apply Validations
+        $validate = $this->validation->validate($request, [
+            '_token' => 'required',
+        ]);
+
+        // Check for failed rules
+        if($this->validation->fails())
+        {
+            return $validate;
+        }
+
+        return $this->http_client->post(self::URI().__FUNCTION__,  $request);
     }
 }
